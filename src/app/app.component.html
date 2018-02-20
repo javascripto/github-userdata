@@ -1,0 +1,104 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <mat-toolbar-row>
+    <i class="fab fa-github"></i>
+    <span class="space"></span>
+    <span>Github API - User Data </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div id="input-field" class="mat-elevation-z4" *ngIf="!loading && !userdata">
+  <mat-form-field>
+    <input placeholder="Enter a github user name" [(ngModel)]="username" (keydown)="checkEnter($event)" matInput>
+    <span matPrefix>
+    	<i class="fab fa-github"></i> &nbsp;
+    </span>
+  </mat-form-field>
+  <div>
+		<button (click)="fetchAll()" mat-raised-button color="primary">Search</button>
+	</div>
+</div>
+
+<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+
+<div class="container" *ngIf="userdata && !loading">
+	<div class="row">
+		<div class="col-md-4">
+			<mat-card>
+			  <img mat-card-image src="{{userdata.avatar_url}}"  alt="Profile picture">
+			  <mat-card-content>
+				  <mat-list-item>
+				    <mat-card-title>{{userdata.name}}</mat-card-title>
+				    <mat-card-subtitle>@{{userdata.login}}</mat-card-subtitle>
+				  </mat-list-item>
+			    <mat-list sstyle="display:none">
+			      <mat-divider></mat-divider>
+			      <mat-list-item *ngIf="userdata.location">
+			        <mat-icon mat-list-icon>place</mat-icon>
+			        <p mat-line> {{userdata.location}} </p>
+			      </mat-list-item>
+			      <mat-list-item>
+			        <mat-icon mat-list-icon>date_range</mat-icon>
+			        <p mat-line> Joined on {{since}} </p>
+			      </mat-list-item>
+			      <mat-list-item *ngIf="userdata.blog">
+			        <mat-icon mat-list-icon>link</mat-icon>
+			        <p mat-line> <a href="{{userdata.blog}}">{{userdata.blog}}</a> </p>
+			      </mat-list-item>
+			      <mat-list-item *ngIf="userdata.mail">
+			        <mat-icon mat-list-icon>mail_outline</mat-icon>
+			        <p mat-line> {{userdata.mail}} </p>
+			      </mat-list-item>
+			    </mat-list>
+			  </mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-md-8 col-sm-12 mat-elevation-z2" id="tabs">
+			<mat-tab-group>
+			  <mat-tab label="Repositories">
+			    <ng-template mat-tab-label>
+			      <i class="repo"></i> Repositories <mat-chip>{{userdata.public_repos}}</mat-chip> 
+			    </ng-template> 
+			    <mat-chip-list></mat-chip-list>
+			    <div *ngIf="repositories" id="repos">
+			      <div *ngFor="let repo of repositories"><i class="repo"></i> <a href="{{repo.html_url}}">{{repo.name}}</a></div>
+			    </div>
+			  </mat-tab>
+
+			  <mat-tab label="Following">
+			    <ng-template mat-tab-label>
+			      <mat-icon>group</mat-icon> Following <mat-chip>{{userdata.following}}</mat-chip>
+			    </ng-template>    
+			    <app-followers [followers]="following" (newSearch)="newSearch($event)"></app-followers>
+			  </mat-tab>
+
+			  <mat-tab label="Followers">
+			    <ng-template mat-tab-label>
+			      <mat-icon>group</mat-icon> Followers <mat-chip>{{userdata.followers}}</mat-chip>
+			    </ng-template>    
+			    <app-followers [followers]="followers" (newSearch)="newSearch($event)"></app-followers>
+			  </mat-tab>
+
+			  <mat-tab label="Events" *ngIf="events">
+			    <ng-template mat-tab-label>
+			      <mat-icon>event</mat-icon> Events <mat-chip>{{events.length}}</mat-chip>
+			    </ng-template>    
+			    <ul id="events">
+			      <li *ngFor="let e of events">
+			        <a href="{{e.repo.url.replace('api.','').replace('repos/', '')}}">
+			          {{e.actor.login}} created a 
+			          {{e.type}} to: 
+			          {{e.repo.name}} on: 
+			          {{e.created_at | date : 'dd/MM/y H:m'}}
+			        </a>
+			      </li>
+			    </ul>
+			  </mat-tab>
+			</mat-tab-group>
+		</div>
+	</div>
+</div>
+
+
+<button mat-fab *ngIf="userdata && !loading" (click)="newSearch()">
+	<mat-icon aria-label="Search another user">search</mat-icon>
+</button>

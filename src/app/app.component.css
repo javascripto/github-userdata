@@ -1,0 +1,48 @@
+.space{
+    margin-right: 20px;
+}
+
+img.circle{
+    border-radius: 50%;
+}
+
+#input-field{
+	max-width: 400px;
+	height: 150px;
+	background: #fff; 
+	margin: 25px auto;
+	padding: 25px;
+	text-align: center;
+}
+
+mat-form-field{
+	width: 300px;
+}
+
+mat-progress-spinner{
+	margin: 200px auto;
+}
+
+[mat-fab]{
+	display: block;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
+
+#tabs{
+	background: #fff;
+}
+
+#events{
+	margin: 25px auto;
+	text-align: center;
+	list-style-type: none;
+}
+#repos{
+	margin: 25px;
+}
+
+app-followers{
+	margin-top: 25px;
+}

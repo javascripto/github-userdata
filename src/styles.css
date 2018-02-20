@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.repo:before{
+    content: '\f001';
+    font-family: "Octicons";
+    font-style: normal;
+    font-size: 1.5em;
+}
+.fa-github{
+	font-size: 1.5em;
+}
+body{
+	margin: 0;
+	background: #efefef
+}
+

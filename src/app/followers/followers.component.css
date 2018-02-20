@@ -1,0 +1,29 @@
+img{
+	max-width:50px;
+	height: 50px;
+	border-radius: 50%
+}
+.card{
+	display: inline-block;
+	border-radius: 5px;
+	text-align: center;
+	padding: 15px;
+	margin: 10px;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+  min-width: 150px;
+  background: #fff;
+  cursor: pointer;
+}
+.card a {
+	text-decoration: none;
+	font-style: normal;
+	font-family: sans-serif;
+	color: black;
+}
+.card a:visited{
+	color: black;
+}
+.card .name{
+  font-size: 14px;
+  margin-top: 5px;
+}
