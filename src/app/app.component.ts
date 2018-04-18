@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent {
     return (new Date(this.userdata['created_at'])).toLocaleDateString();
   }
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, public snackBar: MatSnackBar) { }
 
   fetchAll() {
     clearTimeout(this.debounce);
@@ -38,6 +39,7 @@ export class AppComponent {
 
   fetchData(property: string = 'userdata', resource) {
     if (!this.username) {
+      this.openSnackBar("Please fill the input");
       return false;
     }
     this.loading = true;
@@ -48,6 +50,16 @@ export class AppComponent {
     .subscribe(data => {
       this[property] = data;
       this.loading = false;
+    }, res => {
+      this.loading = false;
+      if (property == 'userdata') {
+        if (res.status == 404){
+          this.openSnackBar("User name Not found!");
+        }
+        else if( res.status == 403) {
+          this.openSnackBar("Github API request rate limit exceeded for your IP address. Try again later");
+        }
+      }
     });
   }
 
@@ -67,5 +79,10 @@ export class AppComponent {
       this.username = event;
       this.fetchAll();
     }
+  }
+  openSnackBar(msg: string) {
+    this.snackBar.open(msg, 'OK', {
+      duration: 4000
+    });
   }
 }

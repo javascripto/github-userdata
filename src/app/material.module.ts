@@ -13,7 +13,8 @@ import {
   MatCardModule,
   MatSidenavModule,
   MatGridListModule,
-  MatChipsModule
+  MatChipsModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 @NgModule({
@@ -29,7 +30,8 @@ import {
     MatCardModule,
     MatSidenavModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSnackBarModule
   ],
   exports: [
     MatFormFieldModule,
@@ -43,7 +45,8 @@ import {
     MatCardModule,
     MatSidenavModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSnackBarModule
   ]
 })
 
