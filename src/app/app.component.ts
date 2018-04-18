@@ -37,6 +37,9 @@ export class AppComponent {
   }
 
   fetchData(property: string = 'userdata', resource) {
+    if (!this.username) {
+      return false;
+    }
     this.loading = true;
     let url = `${this.api}/users/${this.username}`;
     url = (resource) ? `${url}/${resource}` : url;
@@ -50,12 +53,12 @@ export class AppComponent {
 
   checkEnter(e) {
     if (e.keyCode === 13) {
-      this.fetchAll();
+      return this.fetchAll();
     }
     clearTimeout(this.debounce);
     this.debounce = setTimeout(() => {
       this.fetchAll();
-    }, 6000);
+    }, 2500);
   }
 
   newSearch(event) {
