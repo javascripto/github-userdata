@@ -28,6 +28,7 @@ mat-progress-spinner{
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
+	z-index: 99;
 }
 
 #tabs{
@@ -39,10 +40,21 @@ mat-progress-spinner{
 	text-align: center;
 	list-style-type: none;
 }
+
+#events li{
+	border-bottom: 1px solid #cecece;
+}
+
 #repos{
 	margin: 25px;
 }
 
 app-followers{
 	margin-top: 25px;
+}
+
+@media (max-width: 480px) {
+	.hide-mobile{
+			display: none;
+	}
 }

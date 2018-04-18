@@ -56,35 +56,35 @@
 			<mat-tab-group>
 			  <mat-tab label="Repositories">
 			    <ng-template mat-tab-label>
-			      <i class="repo"></i> Repositories <mat-chip>{{userdata.public_repos}}</mat-chip> 
+			      <i class="repo"></i> <span class="hide-mobile">Repositories <mat-chip>{{userdata.public_repos}}</mat-chip></span> 
 			    </ng-template> 
 			    <mat-chip-list></mat-chip-list>
 			    <div *ngIf="repositories" id="repos">
-			      <div *ngFor="let repo of repositories"><i class="repo"></i> <a href="{{repo.html_url}}">{{repo.name}}</a></div>
+			      <div *ngFor="let repo of repositories"><i class="repo"></i> <a href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></div>
 			    </div>
 			  </mat-tab>
 
 			  <mat-tab label="Following">
 			    <ng-template mat-tab-label>
-			      <mat-icon>group</mat-icon> Following <mat-chip>{{userdata.following}}</mat-chip>
+						<mat-icon>group</mat-icon> <span class="hide-mobile">Following <mat-chip>{{userdata.following}}</mat-chip></span>
 			    </ng-template>    
 			    <app-followers [followers]="following" (newSearch)="newSearch($event)"></app-followers>
 			  </mat-tab>
 
 			  <mat-tab label="Followers">
 			    <ng-template mat-tab-label>
-			      <mat-icon>group</mat-icon> Followers <mat-chip>{{userdata.followers}}</mat-chip>
+						<mat-icon>group</mat-icon> <span class="hide-mobile">Followers <mat-chip>{{userdata.followers}}</mat-chip></span>
 			    </ng-template>    
 			    <app-followers [followers]="followers" (newSearch)="newSearch($event)"></app-followers>
 			  </mat-tab>
 
 			  <mat-tab label="Events" *ngIf="events">
 			    <ng-template mat-tab-label>
-			      <mat-icon>event</mat-icon> Events <mat-chip>{{events.length}}</mat-chip>
+						<mat-icon>event</mat-icon> <span class="hide-mobile">Events <mat-chip>{{events.length}}</mat-chip></span>
 			    </ng-template>    
 			    <ul id="events">
 			      <li *ngFor="let e of events">
-			        <a href="{{e.repo.url.replace('api.','').replace('repos/', '')}}">
+							<a href="{{e.repo.url.replace('api.','').replace('repos/', '')}}" target="_blank">
 			          {{e.actor.login}} created a 
 			          {{e.type}} to: 
 			          {{e.repo.name}} on: 
