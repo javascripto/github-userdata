@@ -2,6 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
 
+You can see the app running at the following address: [https://yuri8p.github.io/github-userdata/dist](https://yuri8p.github.io/github-userdata/dist).
 
 ## Installation guide
 
