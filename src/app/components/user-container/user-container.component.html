@@ -1,0 +1,83 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card>
+        <img mat-card-image src="{{user.avatar_url}}"  alt="Profile picture">
+        <mat-card-content>
+          <mat-list-item>
+            <mat-card-title>{{user.name}}</mat-card-title>
+            <mat-card-subtitle>@{{user.login}}</mat-card-subtitle>
+          </mat-list-item>
+          <mat-list style="display:none">
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf="user.location">
+              <mat-icon mat-list-icon>place</mat-icon>
+              <p mat-line> {{user.location}} </p>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon mat-list-icon>date_range</mat-icon>
+              <p mat-line> Joined on {{'TODO: since pipe'}} </p>
+            </mat-list-item>
+            <mat-list-item *ngIf="user.blog">
+              <mat-icon mat-list-icon>link</mat-icon>
+              <p mat-line> <a href="{{user.blog}}">{{user.blog}}</a> </p>
+            </mat-list-item>
+            <mat-list-item *ngIf="user.email">
+              <mat-icon mat-list-icon>mail_outline</mat-icon>
+              <p mat-line> {{user.email}} </p>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-8 col-sm-12 mat-elevation-z2" id="tabs">
+      <mat-tab-group>
+        <mat-tab label="Repositories">
+          <ng-template mat-tab-label>
+            <i class="repo"></i> <span class="hide-mobile">Repositories <mat-chip>{{user.public_repos}}</mat-chip></span>
+          </ng-template>
+          <mat-chip-list></mat-chip-list>
+          <div *ngIf="user.repos$ | async as repos" id="repos">
+            <div *ngFor="let repo of repos"><i class="repo"></i> <a href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Following">
+          <ng-template mat-tab-label>
+            <mat-icon>group</mat-icon> <span class="hide-mobile">Following <mat-chip>{{user.following}}</mat-chip></span>
+          </ng-template>
+          <app-followers [followers]="user.following$" (newSearch)="search($event)"></app-followers>
+        </mat-tab>
+
+        <mat-tab label="Followers">
+          <ng-template mat-tab-label>
+            <mat-icon>group</mat-icon> <span class="hide-mobile">Followers <mat-chip>{{user.followers}}</mat-chip></span>
+          </ng-template>
+          <app-followers [followers]="user.followers$" (newSearch)="search($event)"></app-followers>
+        </mat-tab>
+
+        <mat-tab label="Events" *ngIf="user.events$ | async as events">
+          <ng-template mat-tab-label>
+            <mat-icon>event</mat-icon> <span class="hide-mobile">Events <mat-chip>{{events.length}}</mat-chip></span>
+          </ng-template>
+          <ul id="events">
+            <li *ngFor="let e of events">
+              <a href="{{e.repo.url.replace('api.','').replace('repos/', '')}}" target="_blank">
+                {{e.actor.login}} created a
+                {{e.type}} to:
+                {{e.repo.name}} on:
+                {{e.created_at | date : 'dd/MM/y H:m'}}
+              </a>
+            </li>
+          </ul>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+
+<button mat-fab (click)="search()">
+  <mat-icon aria-label="Search another user">search</mat-icon>
+</button>

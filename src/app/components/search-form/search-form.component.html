@@ -1,0 +1,13 @@
+<div class="mat-elevation-z4 search-container">
+  <mat-form-field>
+    <input #input matInput placeholder="Enter a github user name" (keydown.enter)="search(input.value)">
+    <span matPrefix>
+    	<i class="fab fa-github"></i> &nbsp;
+    </span>
+  </mat-form-field>
+  <div>
+		<button mat-raised-button color="primary" (click)="search(input.value)">
+      Search
+    </button>
+	</div>
+</div>

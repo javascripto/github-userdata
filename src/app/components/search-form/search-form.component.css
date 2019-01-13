@@ -1,0 +1,8 @@
+.search-container {
+	max-width: 400px;
+	height: 150px;
+	background: #fff;
+	margin: 25px auto;
+	padding: 25px;
+	text-align: center;
+}
