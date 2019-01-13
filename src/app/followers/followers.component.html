@@ -1,4 +1,0 @@
-<div *ngFor="let f of followers ? followers : []" class="card" (click)="newSearch.emit(f.login)">
-	<img src="{{f.avatar_url}}">
-	<div class="name">{{f.login}}</div>
-</div>

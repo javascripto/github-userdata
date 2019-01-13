@@ -1,29 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
-
-import { FollowersComponent } from './followers/followers.component';
+import { GithubService } from './services/github.service';
+import { MaterialModule } from './shared/material.module';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SearchFormComponent } from './components/search-form/search-form.component';
+import { UserContainerComponent } from './components/user-container/user-container.component';
+import { FollowersComponent } from './components/user-container/followers/followers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FollowersComponent
+    ToolbarComponent,
+    SearchFormComponent,
+    UserContainerComponent,
+    FollowersComponent,
   ],
   imports: [
-    BrowserModule,
     FormsModule,
-    HttpModule,
+    BrowserModule,
+    MaterialModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule
   ],
-  providers: [],
+  providers: [GithubService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

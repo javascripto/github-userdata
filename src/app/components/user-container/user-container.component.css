@@ -1,0 +1,44 @@
+
+.space{
+  margin-right: 20px;
+}
+
+img.circle{
+  border-radius: 50%;
+}
+
+[mat-fab]{
+	display: block;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 99;
+}
+
+#tabs{
+	background: #fff;
+}
+
+#events{
+	margin: 25px auto;
+	text-align: center;
+	list-style-type: none;
+}
+
+#events li{
+	border-bottom: 1px solid #cecece;
+}
+
+#repos{
+	margin: 25px;
+}
+
+app-followers{
+	margin-top: 25px;
+}
+
+@media (max-width: 480px) {
+	.hide-mobile{
+			display: none;
+	}
+}

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { User } from './shared/models/user';
 import { MatSnackBar } from '@angular/material';
+import { GithubService } from './services/github.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,79 +11,36 @@ import { MatSnackBar } from '@angular/material';
 })
 
 export class AppComponent {
-  api = 'https://api.github.com';
-  username: string;
 
-  userdata: object;
-  repositories: object;
-  followers: object;
-  following: object;
-  events: object;
+  public user: User;
+  public loading: boolean;
 
-  debounce;
-  loading;
+  constructor(
+    private snackBar: MatSnackBar,
+    private githubService: GithubService) {}
 
-  get since(): string {
-    return (new Date(this.userdata['created_at'])).toLocaleDateString();
-  }
-
-  constructor(private http: Http, public snackBar: MatSnackBar) { }
-
-  fetchAll() {
-    clearTimeout(this.debounce);
-    this.fetchData('userdata', null);
-    this.fetchData('repositories', 'repos');
-    this.fetchData('followers', 'followers');
-    this.fetchData('following', 'following');
-    this.fetchData('events', 'events');
-  }
-
-  fetchData(property: string = 'userdata', resource) {
-    if (!this.username) {
-      this.openSnackBar("Please fill the input");
-      return false;
-    }
+  search(username: string) {
     this.loading = true;
-    let url = `${this.api}/users/${this.username}`;
-    url = (resource) ? `${url}/${resource}` : url;
-    this.http.get(url)
-    .map(data => data.json())
-    .subscribe(data => {
-      this[property] = data;
-      this.loading = false;
-    }, res => {
-      this.loading = false;
-      if (property == 'userdata') {
-        if (res.status == 404){
-          this.openSnackBar("User name Not found!");
-        }
-        else if( res.status == 403) {
-          this.openSnackBar("Github API request rate limit exceeded for your IP address. Try again later");
-        }
-      }
-    });
+    this.githubService.getUser(username)
+      .subscribe(
+        user  => this.user = window['user'] = user,
+        error => this.handleError(error)
+      )
+      .add(() => this.loading = false);
   }
-
-  checkEnter(e) {
-    if (e.keyCode === 13) {
-      return this.fetchAll();
-    }
-    clearTimeout(this.debounce);
-    this.debounce = setTimeout(() => {
-      this.fetchAll();
-    }, 2500);
-  }
-
-  newSearch(event) {
-    this.userdata = null;
-    if (event) {
-      this.username = event;
-      this.fetchAll();
+  newSearch(username: string) {
+    if (!username) {
+      this.user = undefined;
+    } else {
+      this.search(username);
     }
   }
-  openSnackBar(msg: string) {
-    this.snackBar.open(msg, 'OK', {
-      duration: 4000
-    });
+
+  handleError(error: HttpErrorResponse) {
+    return (error.status === 404)
+      ? this.snackBar.open('User not Found!', 'OK')
+      : (error.status === 403)
+        ? this.snackBar.open('Github API request rate limit exceeded for your IP address.', 'OK')
+        : null;
   }
 }
